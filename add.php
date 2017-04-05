@@ -1,10 +1,10 @@
-<?php 
-//Connects to your Database 
-mysql_connect("localhost", "root", "210591") or die(mysql_error()); 
-mysql_select_db("simple-php-login") or die(mysql_error()); 
+<?php
+//Connects to your Database
+$link = mysqli_connect("localhost", "erick", "erick") or die(mysql_error());
+mysqli_select_db($link, "simple_php_login") or die(mysql_error());
 
 //This code runs if the form has been submitted
-if (isset($_POST['submit'])) { 
+if (isset($_POST['submit'])) {
 
 //This makes sure they did not leave any fields blank
 if (!$_POST['username'] | !$_POST['pass'] | !$_POST['pass2'] ) {
@@ -17,9 +17,9 @@ if (!get_magic_quotes_gpc()) {
 }
 
 $usercheck = $_POST['username'];
-$check = mysql_query("SELECT username FROM users WHERE username = '$usercheck'") 
+$check = mysqli_query($link, "SELECT username FROM users WHERE username = '$usercheck'")
 or die(mysql_error());
-$check2 = mysql_num_rows($check);
+$check2 = mysqli_num_rows($check);
 
 //if the name exists it gives an error
 if ($check2 != 0) {
@@ -41,20 +41,20 @@ if (!get_magic_quotes_gpc()) {
 
 // now we insert it into the database
 $insert = "INSERT INTO users (username, password) VALUES ('".$_POST['username']."', '".$_POST['pass']."')";
-$add_member = mysql_query($insert);
+$add_member = mysqli_query($link, $insert);
 ?>
 
  <h1>Registered</h1>
 
  <p>Thank you, you have registered - you may now <a href="login.php">login</a>.</p>
 
- <?php 
+ <?php
  }
 
- else 
- {	
+ else
+ {
  ?>
- 
+
  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
  <table border="0">
@@ -77,11 +77,11 @@ $add_member = mysql_query($insert);
 
  </td></tr>
 
- <tr><th colspan=2><input type="submit" name="submit" 
+ <tr><th colspan=2><input type="submit" name="submit"
 value="Register"></th></tr> </table>
 
  </form>
 
  <?php
  }
- ?> 
+ ?>
